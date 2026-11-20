@@ -45,8 +45,29 @@ Not available through the MCP: Smart and Video campaigns (use Demand Gen or Perf
 Max for YouTube video), deleting campaigns, uploading videos to YouTube (the video must
 already be public or unlisted on YouTube).
 
-Per-type structure, limits and best practices:
-[references/campaign-types.md](references/campaign-types.md).
+How to choose the type and structure ad groups, keywords, negatives, assets, bidding and
+budget is the skill `google-ads-campaign-planning` (installed with this one); use it for
+the plan and this skill for the build.
+
+What the OneClick tools accept per type:
+
+- **Search** (`createGoogleSearchCampaign`): ad groups with keywords and 1–3 responsive
+  search ads each (3–15 headlines, 2–4 descriptions, optional pins), campaign negatives,
+  optional Search Partners / Display Expansion (only when asked), sitelinks, callouts,
+  snippets, call, images, prices, promotions, lead form.
+- **Performance Max** (`createGooglePerformanceMaxCampaign`): business name and logos,
+  1–10 asset groups (texts, images, YouTube videos, call to action, search themes, audience
+  signal), brand exclusions, new-customer goal, Merchant Center (retail).
+- **Demand Gen** (`createGoogleDemandGenCampaign`): up to 20 ad groups, up to 10 image,
+  video or carousel (2–10 cards) ads each, optional audience and channels, Merchant
+  Center products; minimum daily budget enforced by Google.
+- **Display** (`createGoogleDisplayCampaign`): ad groups with audiences, interests, topics,
+  placements, YouTube channels, contextual keywords; responsive display ads.
+- **Shopping** (`createGoogleShoppingCampaign`): a LINKED Merchant Center, priority,
+  product groups (all, or by brand, category, product type, item id with "everything
+  else"); no language.
+- **App** (`createGoogleAppCampaign`): subtype fixed at creation; installs take at most one
+  download conversion action, engagement none of download, pre-registration none.
 
 ### 3. Gather the inputs
 

@@ -34,9 +34,11 @@ read the page with `getDocsPage` (paths below) instead of guessing.
 
 If the user named a structure ("Escala Andrômeda", "1-6-3"), use it. Otherwise call
 `listValidatedCampaignStructures` and **suggest one** that fits the goal, then confirm.
-Decision guide and full catalog: [references/validated-structures.md](references/validated-structures.md).
+How to choose the structure, size the budget and pick the creative mix is the skill
+`meta-ads-campaign-structures` (installed with this one); use it for the strategy and this
+skill for the build.
 
-Quick rules:
+Quick rules if that skill is not available:
 
 - **Goal first**: scale what already converts, or test creatives to find the next winner.
 - **Andromeda family (CBO, broad Advantage+ audience)** is the default for most accounts
@@ -46,8 +48,8 @@ Quick rules:
 - **Fair test with equal spend per creative**: ABO `1-X-3x`.
 - **Warm audiences / remarketing**: Mix Top Quente `1-4-5` (ABO, 7/30/90/180 days).
 - **One proven winner to push**: Escala ABO I `1-5-1`.
-- Budget rules of thumb come from the product's sale price or average order value
-  (Andromeda scale: 50–200% of it per day; Andromeda test and 1-1-1: 25–100%).
+- Budget from the product's sale price or average order value (Andromeda scale: 50–200%
+  of it per day; Andromeda test and 1-1-1: 25–100%).
 
 ### 3. Choose the tool
 
@@ -124,14 +126,10 @@ the optimizer's actions.
 
 ## Account-level best practices
 
-From the OneClick docs, so the optimizer has room to work:
-
-- Keep **at least 5 active campaigns**, **3+ ad sets per campaign** and many ads per ad set.
-- Duplicate what already works instead of building from zero.
-- Reserve a **fixed share of the daily budget for tests (about 25%)**; run tests in
-  batches, up to 10 ad sets per test campaign.
-- Andromeda structures depend on the **reference audiences at the ad account level**
-  (Advantage+ audience settings in Ads Manager). Remind the user if they never set them.
+So the optimizer has room to work: at least 5 active campaigns, 3+ ad sets each, many ads
+per ad set, about 25% of the daily budget in tests. Andromeda structures depend on the
+**reference audiences at the ad account level**; remind the user if they never set them.
+Details: skill `meta-ads-campaign-structures`.
 
 ## What you cannot do here
 

@@ -63,6 +63,7 @@ value** from the store. Lead campaigns have no sale price.
   price (no return possible) — unless the user knowingly accepts a higher CPA on a cheap
   product (e.g. price R$19, acceptable CPA R$55: enter both as they are).
 - In tests, a slightly higher value buys sample; lower it later.
+- Break-even CPA and ROAS from margin and LTV: skill `ads-metrics`.
 
 ### Minimum ROAS (instead of CPA)
 
