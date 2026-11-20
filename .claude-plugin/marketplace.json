@@ -1,0 +1,58 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "oneclickads",
+  "owner": {
+    "name": "OneClick Ads",
+    "url": "https://oneclickads.com.br"
+  },
+  "metadata": {
+    "description": "Skills to plan and build Meta Ads and Google Ads campaigns with proven structures, and to run OneClick Ads through its MCP.",
+    "version": "1.0.0"
+  },
+  "plugins": [
+    {
+      "name": "ads-playbook",
+      "source": "./",
+      "strict": false,
+      "description": "Plan Meta Ads and Google Ads campaigns with proven structures and work out paid-traffic metrics. Works without OneClick Ads or any extra tool.",
+      "version": "1.0.0",
+      "author": { "name": "OneClick Ads", "url": "https://oneclickads.com.br" },
+      "homepage": "https://github.com/oneclickads/skills",
+      "repository": "https://github.com/oneclickads/skills",
+      "keywords": ["meta-ads", "facebook-ads", "google-ads", "campaigns", "roas", "paid-traffic"],
+      "category": "marketing",
+      "skills": [
+        "./skills/meta-ads-campaign-structures",
+        "./skills/google-ads-campaign-planning",
+        "./skills/ads-metrics"
+      ]
+    },
+    {
+      "name": "oneclick-ads",
+      "source": "./",
+      "strict": false,
+      "description": "Run OneClick Ads from Claude: onboarding, Meta and Google Ads campaign creation with validated structures, and automatic optimization setup. Connects the OneClick Ads MCP (subscription required).",
+      "version": "1.0.0",
+      "author": { "name": "OneClick Ads", "url": "https://oneclickads.com.br" },
+      "homepage": "https://docs.oneclickads.com.br/pt-br/mcp/",
+      "repository": "https://github.com/oneclickads/skills",
+      "keywords": ["oneclick-ads", "mcp", "meta-ads", "google-ads", "optimization"],
+      "category": "marketing",
+      "skills": [
+        "./skills/meta-ads-campaign-structures",
+        "./skills/google-ads-campaign-planning",
+        "./skills/ads-metrics",
+        "./skills/oneclick-ads-onboarding",
+        "./skills/meta-ads-campaign-builder",
+        "./skills/google-ads-campaign-builder",
+        "./skills/optimization-setup"
+      ],
+      "mcpServers": {
+        "oneclick-ads": {
+          "type": "http",
+          "url": "https://mcp.oneclickads.com.br/mcp"
+        }
+      }
+    }
+  ]
+}

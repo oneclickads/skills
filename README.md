@@ -10,6 +10,26 @@ _English below._
 
 ## Instalar
 
+**No Claude Code**, como plugin. Escolha um:
+
+```
+/plugin install ads-playbook --marketplace oneclickads/skills
+```
+
+```
+/plugin install oneclick-ads --marketplace oneclickads/skills
+```
+
+- `ads-playbook`: as três skills abertas, para qualquer pessoa.
+- `oneclick-ads`: as sete skills e o MCP da OneClick Ads já configurado (pede login na
+  OneClick no primeiro uso). Já inclui as skills do `ads-playbook`, então instale só um.
+
+Em versões do Claude Code anteriores à 2.1.275, adicione o marketplace antes:
+`/plugin marketplace add oneclickads/skills` e depois
+`/plugin install ads-playbook@oneclickads` (ou `oneclick-ads@oneclickads`).
+
+**Em outros assistentes** (Cursor, Codex e outros compatíveis com skills):
+
 ```bash
 npx skills add oneclickads/skills
 ```
@@ -74,6 +94,9 @@ and **Google Ads** campaigns with proven structures and to work out paid-traffic
   `google-ads-campaign-builder`, `optimization-setup`. Campaigns are created **paused**
   after the assistant shows a summary and gets your confirmation.
 
-Install with `npx skills add oneclickads/skills`. Sources: the
+Install in Claude Code with `/plugin install ads-playbook --marketplace oneclickads/skills`
+(open skills) or `/plugin install oneclick-ads --marketplace oneclickads/skills` (all seven
+skills plus the OneClick Ads MCP; install one, not both). Elsewhere:
+`npx skills add oneclickads/skills`. Sources: the
 [OneClick Ads Validated Campaigns](https://docs.oneclickads.com.br/en/validated-campaigns/)
 and the [OneClick Ads docs](https://docs.oneclickads.com.br/en/).
