@@ -100,3 +100,7 @@ skills plus the OneClick Ads MCP; install one, not both). Elsewhere:
 `npx skills add oneclickads/skills`. Sources: the
 [OneClick Ads Validated Campaigns](https://docs.oneclickads.com.br/en/validated-campaigns/)
 and the [OneClick Ads docs](https://docs.oneclickads.com.br/en/).
+
+## Licença / License
+
+[MIT](LICENSE)

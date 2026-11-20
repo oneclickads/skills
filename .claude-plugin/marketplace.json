@@ -19,6 +19,7 @@
       "author": { "name": "OneClick Ads", "url": "https://oneclickads.com.br" },
       "homepage": "https://github.com/oneclickads/skills",
       "repository": "https://github.com/oneclickads/skills",
+      "license": "MIT",
       "keywords": ["meta-ads", "facebook-ads", "google-ads", "campaigns", "roas", "paid-traffic"],
       "category": "marketing",
       "skills": [
@@ -36,6 +37,7 @@
       "author": { "name": "OneClick Ads", "url": "https://oneclickads.com.br" },
       "homepage": "https://docs.oneclickads.com.br/pt-br/mcp/",
       "repository": "https://github.com/oneclickads/skills",
+      "license": "MIT",
       "keywords": ["oneclick-ads", "mcp", "meta-ads", "google-ads", "optimization"],
       "category": "marketing",
       "skills": [
