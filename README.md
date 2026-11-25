@@ -21,14 +21,19 @@ _English below._
 ```
 
 - `ads-playbook`: as três skills abertas, para qualquer pessoa.
-- `oneclick-ads`: as sete skills e o MCP da OneClick Ads já configurado (pede login na
-  OneClick no primeiro uso). Já inclui as skills do `ads-playbook`, então instale só um.
+- `oneclick-ads`: o MCP da OneClick Ads já configurado (pede login na OneClick no
+  primeiro uso). O próprio MCP entrega as sete skills ao Claude, sempre na versão mais
+  recente, então o plugin não as copia. Já inclui as skills do `ads-playbook`, então
+  instale só um.
+
+**No Claude (claude.ai e app)** ou em qualquer assistente compatível com skills via MCP:
+conecte o MCP da OneClick Ads e as sete skills chegam junto, sem instalar nada.
 
 Em versões do Claude Code anteriores à 2.1.275, adicione o marketplace antes:
 `/plugin marketplace add oneclickads/skills` e depois
 `/plugin install ads-playbook@oneclickads` (ou `oneclick-ads@oneclickads`).
 
-**Em outros assistentes** (Cursor, Codex e outros compatíveis com skills):
+**Em outros assistentes** (Cursor, Codex e outros que leem skills de arquivos):
 
 ```bash
 npx skills add oneclickads/skills
@@ -95,8 +100,10 @@ and **Google Ads** campaigns with proven structures and to work out paid-traffic
   after the assistant shows a summary and gets your confirmation.
 
 Install in Claude Code with `/plugin install ads-playbook --marketplace oneclickads/skills`
-(open skills) or `/plugin install oneclick-ads --marketplace oneclickads/skills` (all seven
-skills plus the OneClick Ads MCP; install one, not both). Elsewhere:
+(open skills) or `/plugin install oneclick-ads --marketplace oneclickads/skills` (the
+OneClick Ads MCP, which serves all seven skills itself, always current; install one, not
+both). In Claude (claude.ai and the app) and any assistant that supports skills over MCP,
+connecting the OneClick Ads MCP is enough. Assistants that read skills from files:
 `npx skills add oneclickads/skills`. Sources: the
 [OneClick Ads Validated Campaigns](https://docs.oneclickads.com.br/en/validated-campaigns/)
 and the [OneClick Ads docs](https://docs.oneclickads.com.br/en/).
