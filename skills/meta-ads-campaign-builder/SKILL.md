@@ -22,10 +22,11 @@ read the page with `getDocsPage` (paths below) instead of guessing.
 ### 1. Context
 
 1. Pick the ad account: `listAdAccountsFromMeta` (live). If the user has several, ask
-   which by name.
-2. Read what the account already knows: `listProjectMemories` / `searchProjectKnowledge`
-   (product, sale price or average order value, URL tags, naming tags, landing page,
-   Facebook Page). Reuse it instead of asking again.
+   which by name. One with `heldByOneClick: false` is saved first with
+   `syncMetaAdAccountsFromMeta`.
+2. Gather what the build needs from the user and from the conversation (product, sale
+   price or average order value, URL tags, naming tags, landing page, Facebook Page).
+   Ask only for what is still missing.
 3. Find candidate references: `listCampaignsFromMeta` (live; `listMetaCampaigns` only
    holds what OneClick already synced). For a reference, check its budget type (CBO or
    ABO), objective and whether it delivers.
@@ -140,8 +141,9 @@ Details: skill `meta-ads-campaign-structures`.
   page admin must have accepted Meta's Lead Generation Terms.
 - Delete campaigns.
 
-When the user wants something no tool does, file `sendFeedback` (type `feature`); when a
-tool fails like a defect, type `bug`. Tell the user you reported it.
+When the user wants something no tool does, offer to report it with `sendFeedback` (type
+`feature`); when a tool fails like a defect, type `bug`. File it only after the user
+agrees, then tell them you reported it.
 
 ## Docs to read when needed (`getDocsPage`)
 

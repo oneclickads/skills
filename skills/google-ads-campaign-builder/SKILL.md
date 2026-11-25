@@ -24,8 +24,8 @@ English ("create google search campaign").
    account" on. Then list again.
 2. Several accounts → ask which by name. Note the account currency: budgets are in it,
    not in micros.
-3. Read `listProjectMemories` / `searchProjectKnowledge` for product, landing page,
-   brand, regions, average order value.
+3. Gather product, landing page, brand, regions and average order value from the user
+   and the conversation; ask only for what is still missing.
 4. Before choosing bidding, check conversions: `listGoogleConversionActions`. No working
    conversion action → avoid conversion-based bidding and tell the user to set up
    conversion tracking first (Performance Max requires it).
@@ -112,8 +112,9 @@ Kiwify, Shopify…) reach the right campaign.
 
 ## Feedback
 
-When the user wants something no tool does, file `sendFeedback` type `feature`; when a
-tool fails like a defect, type `bug`. Tell the user.
+When the user wants something no tool does, offer to report it with `sendFeedback` type
+`feature`; when a tool fails like a defect, type `bug`. File it only after the user
+agrees, then tell them.
 
 ## Docs (`getDocsPage`)
 

@@ -27,7 +27,8 @@ automatic optimization (CPA, ROAS, maximum budget, profile) is the skill
 
 ### 1. Find the object by name
 
-1. Ad account: `listAdAccountsFromMeta`; if there are several, ask which by name.
+1. Ad account: `listAdAccountsFromMeta`; if there are several, ask which by name. One
+   with `heldByOneClick: false` is saved first with `syncMetaAdAccountsFromMeta`.
 2. Campaign: `listCampaignsFromMeta` with `nameContains` and `status: "ALL"` (the default
    returns active only, so a paused one looks missing).
 3. Ad sets: `listCampaignAdSetsFromMeta`. Ads: `listCampaignAdsFromMeta` (15 per page:
@@ -136,8 +137,9 @@ Work top-down and say which level explains it:
   from an existing post; edit the link of an ad whose button opens an Instant Form.
 - Clear an ad set's location (Meta needs one; replace it).
 
-When the user wants something no tool does, file `sendFeedback` (type `feature`); when a
-tool fails like a defect, type `bug`. Tell the user you reported it.
+When the user wants something no tool does, offer to report it with `sendFeedback` (type
+`feature`); when a tool fails like a defect, type `bug`. File it only after the user
+agrees, then tell them you reported it.
 
 ## Docs to read when needed (`getDocsPage`)
 

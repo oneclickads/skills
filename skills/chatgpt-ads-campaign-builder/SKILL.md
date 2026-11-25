@@ -29,8 +29,6 @@ English ("create openai ads campaign").
    accounts.
 2. Several accounts → ask which by name. Budgets and bids are in the account currency
    (50 = R$50, never micros).
-3. To place the account in a OneClick project: `listProjects`, then
-   `addOpenAIAdAccountToProject` (an account belongs to one project at most).
 
 ### 2. Read what exists
 
@@ -141,8 +139,9 @@ only the fields you send and returns what it changed.
 - Use a file from the user's computer: images need a public link or an existing `fileId`.
 - Link an account: that is done in the OneClick Ads dashboard with an API key.
 
-When the user wants something no tool does, file `sendFeedback` (type `feature`); when a
-tool fails like a defect, type `bug`. Tell the user you reported it.
+When the user wants something no tool does, offer to report it with `sendFeedback` (type
+`feature`); when a tool fails like a defect, type `bug`. File it only after the user
+agrees, then tell them you reported it.
 
 ## Docs to read when needed (`getDocsPage`)
 
