@@ -32,8 +32,10 @@ read the page with `getDocsPage` (paths below) instead of guessing.
    name. None: tracking is not set up → skill `oneclick-ads-onboarding`.
 2. `listTrackingIntegrations` for that account. It is the health check; read every field
    per integration:
-   - `credentialStatus` **rejected** → the platform refuses the stored credential: fix
-     first (step 3).
+   - `credentialStatus` **rejected** → the platform refuses the stored credential: its
+     funnel stages cannot be read or changed, and where OneClick reads each sale through
+     it (Agendor, DataCrazy, Bitrix24) conversions are dropped. Kommo and Pipedrive keep
+     receiving conversions from stages already set. Fix first (step 3).
    - `conversionStagesStatus` **missing** → a CRM with no stages chosen records
      **nothing**, however healthy the rest looks: fix (step 3).
    - `webhookStatus` **inactive** → nothing has arrived and it is no longer new;
@@ -52,13 +54,13 @@ Count before listing: `countMetaTrackingRawLogs` / `countMetaTrackingStructuredL
 Always pass `adAccountId` (the value from `getMetaAdAccountsWithTracking`), the `platform`
 and the smallest `datePreset` that covers the sale (boundaries in America/Sao_Paulo).
 
-| What you find                                                      | Where it broke                                                                                 |
-| ------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------- |
-| No raw log for the period                                          | The platform is not sending: webhook missing, wrong URL, wrong events, or a refused credential |
-| Raw log with `metaTrackingStructuredId` null                       | Arrived but produced no conversion: read the payload (status, stage, product) to see why       |
-| Structured log whose `origin` has no campaign/ad set/ad ids        | Recorded but not attributable: the sale came without UTM ids                                   |
-| Structured log with `origin` ids, but `campaignId`/`adId` null     | Normal: those fields fill only once an optimization reads the entity — use `origin`            |
-| Structured log with `origin` ids, but no naming in Ads Manager yet | Naming updates about once an hour, after the first attributed conversion                       |
+| What you find                                                      | Where it broke                                                                           |
+| ------------------------------------------------------------------ | ---------------------------------------------------------------------------------------- |
+| No raw log for the period                                          | The platform is not sending: webhook missing, wrong URL or wrong events                  |
+| Raw log with `metaTrackingStructuredId` null                       | Arrived but produced no conversion: read the payload (status, stage, product) to see why |
+| Structured log whose `origin` has no campaign/ad set/ad ids        | Recorded but not attributable: the sale came without UTM ids                             |
+| Structured log with `origin` ids, but `campaignId`/`adId` null     | Normal: those fields fill only once an optimization reads the entity — use `origin`      |
+| Structured log with `origin` ids, but no naming in Ads Manager yet | Naming updates about once an hour, after the first attributed conversion                 |
 
 Match a sale by `transactionId`, `orderDate` and `transactionValue` (buyer data is not
 in the logs: ask for order number, date and value). Map `origin` ids to names with
