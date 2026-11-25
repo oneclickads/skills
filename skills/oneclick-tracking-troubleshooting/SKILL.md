@@ -119,9 +119,9 @@ changed and what the user still does on their platform or in the app.
 - Add a platform with no integration: Suggest platform in the app, or the Custom
   integration.
 
-When the user wants something no tool does, file `sendFeedback` (type `feature`); when a
-tool fails or a status contradicts the logs like a defect, type `bug`. Tell the user you
-reported it.
+When the user wants something no tool does, offer to report it with `sendFeedback` (type
+`feature`); when a tool fails or a status contradicts the logs like a defect, type `bug`.
+File it only after the user agrees, then tell them you reported it.
 
 ## Docs to read when needed (`getDocsPage`)
 
