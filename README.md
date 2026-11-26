@@ -22,12 +22,12 @@ _English below._
 
 - `ads-playbook`: as três skills abertas, para qualquer pessoa.
 - `oneclick-ads`: o MCP da OneClick Ads já configurado (pede login na OneClick no
-  primeiro uso). O próprio MCP entrega as dez skills ao Claude, sempre na versão mais
+  primeiro uso). O próprio MCP entrega as onze skills ao Claude, sempre na versão mais
   recente, então o plugin não as copia. Já inclui as skills do `ads-playbook`, então
   instale só um.
 
 **No Claude (claude.ai e app)** ou em qualquer assistente compatível com skills via MCP:
-conecte o MCP da OneClick Ads e as dez skills chegam junto, sem instalar nada.
+conecte o MCP da OneClick Ads e as onze skills chegam junto, sem instalar nada.
 
 Em versões do Claude Code anteriores à 2.1.275, adicione o marketplace antes:
 `/plugin marketplace add oneclickads/skills` e depois
@@ -63,21 +63,23 @@ Pré-requisito: o MCP da OneClick Ads (`https://mcp.oneclickads.com.br/mcp`) con
 escopo de leitura e escrita. Passo a passo:
 [Conectar um assistente de IA](https://docs.oneclickads.com.br/pt-br/mcp/connect-an-ai-assistant/).
 
-| Skill                                                                                    | O que o assistente faz                                                                                                                               |
-| ---------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [`oneclick-ads-onboarding`](skills/oneclick-ads-onboarding/SKILL.md)                     | Conecta o Meta, ativa a conta de anúncios, liga o OneClick Tracking, cria a primeira otimização e faz um diagnóstico                                 |
-| [`meta-ads-campaign-builder`](skills/meta-ads-campaign-builder/SKILL.md)                 | Cria a campanha Meta na sua conta a partir de uma estrutura validada e dos seus melhores criativos                                                   |
-| [`google-ads-campaign-builder`](skills/google-ads-campaign-builder/SKILL.md)             | Cria a campanha de Google Ads na sua conta, de qualquer um dos seis tipos                                                                            |
-| [`optimization-setup`](skills/optimization-setup/SKILL.md)                               | Escolhe o perfil, calcula o CPA para pausar ou o ROAS mínimo pelo histórico e ativa a otimização automática                                          |
-| [`meta-ads-campaign-editor`](skills/meta-ads-campaign-editor/SKILL.md)                   | Altera o que já está rodando no Meta (orçamento, status, público, texto, UTMs, limite mensal) com segurança e explica por que algo parou de entregar |
-| [`oneclick-tracking-troubleshooting`](skills/oneclick-tracking-troubleshooting/SKILL.md) | Investiga venda que não apareceu, venda sem atribuição, ROAS estranho, integração parada e etapas de CRM, e corrige o que dá pelo MCP                |
-| [`chatgpt-ads-campaign-builder`](skills/chatgpt-ads-campaign-builder/SKILL.md)           | Cria e gerencia campanhas, grupos e anúncios no ChatGPT Ads (OpenAI), tudo pausado até você confirmar                                                |
+| Skill                                                                                    | O que o assistente faz                                                                                                                                                 |
+| ---------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [`oneclick-ads-onboarding`](skills/oneclick-ads-onboarding/SKILL.md)                     | Conecta o Meta, ativa a conta de anúncios, liga o OneClick Tracking, cria a primeira otimização e faz um diagnóstico                                                   |
+| [`meta-ads-campaign-builder`](skills/meta-ads-campaign-builder/SKILL.md)                 | Cria a campanha Meta na sua conta a partir de uma estrutura validada e dos seus melhores criativos                                                                     |
+| [`google-ads-campaign-builder`](skills/google-ads-campaign-builder/SKILL.md)             | Cria a campanha de Google Ads na sua conta, de qualquer um dos seis tipos                                                                                              |
+| [`optimization-setup`](skills/optimization-setup/SKILL.md)                               | Escolhe o perfil, calcula o CPA para pausar ou o ROAS mínimo pelo histórico e ativa a otimização automática                                                            |
+| [`meta-ads-campaign-editor`](skills/meta-ads-campaign-editor/SKILL.md)                   | Altera o que já está rodando no Meta (orçamento, status, público, texto, UTMs, limite mensal) com segurança e explica por que algo parou de entregar                   |
+| [`oneclick-tracking-troubleshooting`](skills/oneclick-tracking-troubleshooting/SKILL.md) | Investiga venda que não apareceu, venda sem atribuição, ROAS estranho, integração parada e etapas de CRM, e corrige o que dá pelo MCP                                  |
+| [`ads-delivery-troubleshooting`](skills/ads-delivery-troubleshooting/SKILL.md)           | Descobre por que uma campanha ou anúncio não veicula ou veicula pouco no Meta, Google Ads, ChatGPT Ads ou TikTok, do nível da conta até o anúncio, e propõe a correção |
+| [`chatgpt-ads-campaign-builder`](skills/chatgpt-ads-campaign-builder/SKILL.md)           | Cria e gerencia campanhas, grupos e anúncios no ChatGPT Ads (OpenAI), tudo pausado até você confirmar                                                                  |
 
 Exemplos:
 
 - "Monte uma Escala Andrômeda (1-1-10) com meus 10 melhores anúncios dos últimos 90 dias, R$ 150/dia."
 - "Configure a otimização dessa campanha nova com o padrão da conta."
 - "Iniciar onboarding na OneClick Ads."
+- "Por que minha campanha do Google não está veiculando?"
 
 Toda campanha sobe **pausada**, e o assistente mostra o resumo e pede confirmação antes
 de criar qualquer coisa.
@@ -100,12 +102,12 @@ and **Google Ads** campaigns with proven structures and to work out paid-traffic
 - **With OneClick Ads** (MCP at `https://mcp.oneclickads.com.br/mcp`, read and write
   scope): `oneclick-ads-onboarding`, `meta-ads-campaign-builder`,
   `google-ads-campaign-builder`, `optimization-setup`, `meta-ads-campaign-editor`,
-  `oneclick-tracking-troubleshooting`, `chatgpt-ads-campaign-builder`. Campaigns are created **paused**
+  `oneclick-tracking-troubleshooting`, `ads-delivery-troubleshooting`, `chatgpt-ads-campaign-builder`. Campaigns are created **paused**
   after the assistant shows a summary and gets your confirmation.
 
 Install in Claude Code with `/plugin install ads-playbook --marketplace oneclickads/skills`
 (open skills) or `/plugin install oneclick-ads --marketplace oneclickads/skills` (the
-OneClick Ads MCP, which serves all ten skills itself, always current; install one, not
+OneClick Ads MCP, which serves all eleven skills itself, always current; install one, not
 both). In Claude (claude.ai and the app) and any assistant that supports skills over MCP,
 connecting the OneClick Ads MCP is enough. Assistants that read skills from files:
 `npx skills add oneclickads/skills`. Sources: the
