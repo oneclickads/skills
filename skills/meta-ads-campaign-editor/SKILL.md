@@ -108,9 +108,11 @@ Work top-down and say which level explains it:
 1. **Status chain**: `effectiveStatus` in `listCampaignAdSetsFromMeta` /
    `listCampaignAdsFromMeta`. `CAMPAIGN_PAUSED` / `ADSET_PAUSED` means the ad is fine and
    something above it is paused; `PENDING_BILLING_INFO` is a payment matter in Meta.
-2. **Rejected ad** (`DISAPPROVED`, `WITH_ISSUES`, `PENDING_REVIEW`): `getAdIssuesFromMeta`
-   gives Meta's reason and the policy or placement. Empty lists mean Meta gave no detail
-   through the API: send the user the `adsManagerUrl` to read the notice there.
+2. **Rejected ad** (`DISAPPROVED`, `WITH_ISSUES`, `PENDING_REVIEW`): `listMetaAdIssues`
+   with the ad account (and the `campaignId`) lists every such ad in one call, with Meta's
+   reason and the policy or placement (`detail.scope`) as its issues. An ad whose only
+   issue is its status: Meta gave no detail through the API; send the user to the ad in
+   Ads Manager to read the notice there.
 3. **Something changed**: `listChangeHistoryFromMeta` (up to 90 days) shows edits by a
    person (`manual`) or by Meta (`meta`), with before/after and who. OneClick's own
    optimizer actions are not in it: for those, skill `optimization-setup`.
