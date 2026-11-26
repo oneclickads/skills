@@ -101,7 +101,7 @@ Decide with the user, one value at a time:
 - **Performance** (live): `getOpenAIAdAccountLiveInsights` (account totals),
   `getOpenAIAdsCampaignLiveInsights` (per campaign), `getOpenAIAdsLevelLiveInsights`
   (campaign, ad group or ad). A null metric is "no data", never zero.
-- **Not serving / rejected**: `listOpenAIAdsAdIssues`. Read `account` first: an inactive
+- **Not serving / rejected**: `listOpenAIAdIssues`. Read `account` first: an inactive
   account or a brand review that did not pass holds every ad back.
 - **Who changed what**: `listOpenAIAdsChangeHistory`.
 

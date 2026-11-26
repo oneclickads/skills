@@ -5,29 +5,33 @@
 `listOpenAIAdsAds` returns each ad's `reviewStatus`: `in_review`, `rejected` or
 `approved`, plus `review` (OpenAI's detail, as it comes) and `servingIssues`.
 
-| Situation                                                      | What to do                                                                                                                                                                                                  |
-| -------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| New ad                                                         | `getWorkerStatus` reports each ad's review status at creation.                                                                                                                                              |
-| `in_review`                                                    | Wait; it serves once approved and every level is active.                                                                                                                                                    |
-| `rejected`                                                     | Read the reason in `listOpenAIAdsAdIssues` (`ad.review`). Propose a new title, body, link or images, confirm, then `updateOpenAIAdsAd`; it goes back to `in_review`. Turning it on does **not** approve it. |
-| Rejected multi-image ad, user wants one image (or the reverse) | Create a new ad with `createOpenAIAdsAds`; an ad keeps its kind.                                                                                                                                            |
-| Editing the card of an approved ad                             | Warn that it goes back to review and stops serving until approved again.                                                                                                                                    |
+| Situation                                                      | What to do                                                                                                                                                                                                                                |
+| -------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| New ad                                                         | `getWorkerStatus` reports each ad's review status at creation.                                                                                                                                                                            |
+| `in_review`                                                    | Wait; it serves once approved and every level is active.                                                                                                                                                                                  |
+| `rejected`                                                     | Read the reason in `listOpenAIAdIssues` (the ad's `policy` issue: `message`, `detail`). Propose a new title, body, link or images, confirm, then `updateOpenAIAdsAd`; it goes back to `in_review`. Turning it on does **not** approve it. |
+| Rejected multi-image ad, user wants one image (or the reverse) | Create a new ad with `createOpenAIAdsAds`; an ad keeps its kind.                                                                                                                                                                          |
+| Editing the card of an approved ad                             | Warn that it goes back to review and stops serving until approved again.                                                                                                                                                                  |
 
-## Why an ad is not serving — `listOpenAIAdsAdIssues`
+## Why an ad is not serving — `listOpenAIAdIssues`
 
-Returns:
+The same shape as every platform's issues tool (skill `ads-delivery-troubleshooting`):
 
-- `account`: `status`, `review` (the advertiser brand review), `accountIntegrityReview`
-  (null when OpenAI returns none). **Read it first**: an account that is not active or
-  whose review did not pass holds every ad back, listed or not.
-- `ads`: each non-archived ad with serving issues of its own, a `reviewStatus` of
-  `rejected` or `in_review`, or that is active under a campaign or ad group that is not
-  active or has serving issues. Each entry carries the ad, its `adGroup` and its
-  `campaign` (id, name, status, `servingIssues`).
+- `account`: `status` and `issues` — not active, a brand review or an account integrity
+  review `rejected` (`policy`) or `in_review` (`review`). **Read it first**: it holds
+  every ad back, listed or not.
+- `campaigns` and `adGroups`: those holding an active ad back, with their own issues —
+  OpenAI's `servingIssues` (`code`, `message`, the issue itself in `detail`) or, with none,
+  not being active (`code` the status, e.g. `paused`).
+- `ads`: each non-archived ad with a review `rejected` (`policy`, OpenAI's reason as
+  `message`, its `review` in `detail`) or `in_review` (`review`), or serving issues of its
+  own, with its `adGroup` and `campaign` (id, name, status). An active ad held back only
+  by its paused parent is not repeated: the parent explains it.
 
 Without `campaignId` it reads every non-archived campaign; with it, only that one
-(archived or not). An empty `ads` list does not promise impressions. `servingIssues` are
-passed as OpenAI returns them: quote them, do not reinterpret them.
+(archived or not). Worst first, at most 100 per level (`omitted` counts the rest). Empty
+lists do not promise impressions. Quote OpenAI's codes and messages; do not reinterpret
+them.
 
 Common causes and the fix, by level:
 

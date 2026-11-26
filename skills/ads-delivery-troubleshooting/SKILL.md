@@ -27,17 +27,37 @@ nothing blocking, not that the ad will deliver.
 2. Find the campaign by name: `listCampaignsFromMeta`, `listGoogleCampaigns`,
    `listOpenAIAdsCampaigns`, or `getTikTokAdsLevelLiveInsights` at the campaign level.
 
+## The same diagnosis on every platform
+
+One tool per platform reads, live, why the ads do not serve, and all four answer in the
+same shape: `listMetaAdIssues` (`adAccountId`), `listGoogleAdIssues` (`customerId`),
+`listOpenAIAdIssues` (`adAccountId`), `listTikTokAdIssues` (`adAccountId`). Each takes an
+optional `campaignId`: omit it for the whole account.
+
+- `account`: `status` and `issues`. An issue here holds **every** ad back, listed or not:
+  read it first.
+- `campaigns`, `adGroups` (Meta: ad sets) and `ads`: only those with an issue of their own,
+  each with `id`, `name`, `status` (the platform's own) and its parents (`campaign`,
+  `adGroup`: id, name, status).
+- Each issue: `kind` — `policy` (refused by a policy), `review` (review not finished),
+  `serving` (anything else holding delivery back) —, `code` (the platform's own, quote
+  it), `message` (the platform's words when it gives them) and `detail` (what the
+  platform sent, as it sent it).
+- Worst first (policy, review, serving), at most 100 per level, the rest counted in
+  `omitted`. An issue shown on a campaign or ad group is not repeated on its ads: an ad
+  under a listed campaign may not be listed, and the campaign explains it.
+
 ## 2. The connection and the account first
 
 A broken connection or a held account stops **every** campaign, however healthy each
 one looks. Check it before going down:
 
-| Provider    | Signal                                                                                             | Meaning and fix                                                                                                       |
-| ----------- | -------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
-| Meta        | `listMetaPendingActions`                                                                           | Blockers only the advertiser clears (payment, Page permission, expired connection): show them as they come            |
-| Google      | `listGoogleAdAccounts`: `needsReconnect`, `isActive`, `status` (`SUSPENDED`, `CANCELED`, `CLOSED`) | Reconnect Google in the OneClick Ads app; turn the account on in the app; a suspended account is resolved with Google |
-| ChatGPT Ads | `listOpenAIAdAccounts` `keyInvalid`; `listOpenAIAdsAdIssues` `account` (`status`, brand `review`)  | New API key in the app; an account or brand review that did not pass holds every ad back                              |
-| TikTok      | `listTikTokAdAccounts` `grantInvalid`, `isActive`                                                  | Reconnect with `createTikTokConnectLink`                                                                              |
+| Provider    | Signal                                                                                                                | Meaning and fix                                                                                                       |
+| ----------- | --------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
+| Meta        | `listMetaPendingActions`                                                                                              | Blockers only the advertiser clears (payment, Page permission, expired connection): show them as they come            |
+| Google      | `listGoogleAdAccounts`: `needsReconnect`, `isActive`, `status` (`SUSPENDED`, `CANCELED`, `CLOSED`)                    | Reconnect Google in the OneClick Ads app; turn the account on in the app; a suspended account is resolved with Google |
+| ChatGPT Ads | `listOpenAIAdAccounts` `keyInvalid`; `listOpenAIAdIssues` `account` (status, brand and integrity reviews)             | New API key in the app; an account or brand review that did not pass holds every ad back                              |
+| TikTok      | `listTikTokAdAccounts` `grantInvalid`, `isActive`; `listTikTokAdIssues` `account` (advertiser status, out of balance) | Reconnect with `createTikTokConnectLink`; a rejected advertiser or a balance problem is resolved with TikTok          |
 
 Then ask whether **anything** in the account delivers: the account insights for the last
 30 days (`getAdAccountLiveMetaInsights`, `getGoogleAdAccountLiveInsights`,
@@ -57,9 +77,14 @@ pagamento**).
    `CAMPAIGN_PAUSED` / `ADSET_PAUSED` (the ad is fine, a parent is paused),
    `PENDING_REVIEW`, `PENDING_BILLING_INFO` (payment, in Meta), `DISAPPROVED` /
    `WITH_ISSUES` (rejected).
-2. Rejected ad: `getAdIssuesFromMeta` with the ad id gives Meta's reason and the policy or
-   placement. Both lists empty: Meta gave no detail through the API; send the
-   `adsManagerUrl`.
+2. Rejected or held ads: `listMetaAdIssues` with the ad account (and the `campaignId`)
+   lists, in one call, every ad Meta reports `DISAPPROVED`, `WITH_ISSUES` or
+   `PENDING_REVIEW`, with its ad set and campaign. Its issues are Meta's `issues_info`
+   (`code`: Meta's error code) and each `ad_review_feedback` entry (`code`: the policy,
+   `detail.scope`: the placement or area it came from). An ad with only its status as the
+   issue: Meta gave no detail through the API; send the user to the ad in Ads Manager.
+   `account.status` other than `ACTIVE` (e.g. `UNSETTLED`, a payment problem) holds every
+   ad back.
 3. Something changed: `listChangeHistoryFromMeta` (edits by a person or by Meta);
    OneClick's own actions: `listOptimizationActions`.
 4. Ad set settings that starve delivery: `getAdSetFromMeta` (end date in the past, a low
@@ -71,13 +96,15 @@ Fixing it (status, budget, copy, resolving a pending action): skill
 ### Google Ads
 
 1. `listGoogleAdIssues` with the `customerId` and the `campaignId` (omit it for every
-   enabled campaign). It returns Google's own diagnosis:
-   - each campaign's `primaryStatus` and `primaryStatusReasons`, `servingStatus` and
-     `biddingStrategySystemStatus`;
-   - the enabled ad groups, ads and keywords Google holds back: a `primaryStatus` other
-     than `ELIGIBLE`, an ad not `APPROVED` or still in review (with `policyTopics`), a
-     keyword `RARELY_SERVED` (low search volume) or not approved, with its `qualityScore`.
-     Worst first; at most 100 per level, the rest counted in `omitted`.
+   enabled campaign). It returns Google's own diagnosis in the shared shape:
+   - a campaign's issues: its `servingStatus` other than `SERVING`, its primary status
+     reasons (e.g. `BUDGET_CONSTRAINED`) and a bid strategy not `ENABLED` (e.g.
+     `LEARNING_NEW`);
+   - under an enabled campaign and ad group: ad groups Google holds back, ads not
+     `APPROVED` (`policy`, `detail.policyTopics` naming the policy) or still in review;
+   - **keywords are issues of their ad group**: `RARELY_SERVED` (low search volume),
+     `KEYWORD_<approval>` (not approved) or a primary status reason, the keyword itself in
+     `detail` (`text`, `matchType`, `qualityScore`).
 2. Read the campaign first, then the children. What each reason means and the fix:
    [references/google.md](references/google.md).
 3. Budget and bids behind a `LIMITED` campaign: `getGoogleCampaignSettings` (daily budget,
@@ -93,18 +120,23 @@ asset group is read in Google Ads.
 
 ### ChatGPT Ads (OpenAI)
 
-`listOpenAIAdsAdIssues`: read `account` first, then each ad with its `reviewStatus`,
-`review` and `servingIssues`, and its ad group and campaign. Rejected ad, review states
-and fixes: skill `chatgpt-ads-campaign-builder` →
-`references/review-and-performance.md`.
+`listOpenAIAdIssues`: read `account` first (status, brand review, integrity review), then
+the campaigns and ad groups that hold an active ad back (paused, or serving issues of
+their own) and each ad with a review `rejected` (`policy`, OpenAI's reason as `message`)
+or `in_review` (`review`) or serving issues of its own. Rejected ad, review states and
+fixes: skill `chatgpt-ads-campaign-builder` → `references/review-and-performance.md`.
 
 ### TikTok Ads
 
-`getTikTokAdsLevelLiveInsights` at the campaign, ad group and ad levels: each row's
-`status` and `deliveryStatus` (TikTok's `secondary_status`) with its windows; entities
-with no delivery are listed too. Quote `deliveryStatus` as it comes; the first level whose
-`deliveryStatus` is not delivering explains the rest. Status changes:
-`updateTikTokCampaign`, `updateTikTokAdGroup`, `updateTikTokAd`, after confirming.
+`listTikTokAdIssues`: the advertiser's status, then each campaign that is on, ad group
+that is on under a campaign that is on, and ad that is on under both, whose
+`secondary_status` (the issue's `code`, e.g. `AD_STATUS_AUDIT_DENY`,
+`ADGROUP_STATUS_BUDGET_EXCEED`) is neither delivering nor the advertiser's own pause. An
+ad whose review was refused or is pending is listed whatever its parents; an
+out-of-balance status shows once, on the account. Volume over time:
+`getTikTokAdsLevelLiveInsights` (`deliveryStatus` is the same `secondary_status`). Status
+changes: `updateTikTokCampaign`, `updateTikTokAdGroup`, `updateTikTokAd`, after
+confirming.
 
 ## 4. Explain and propose
 
